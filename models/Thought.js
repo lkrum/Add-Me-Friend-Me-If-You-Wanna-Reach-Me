@@ -1,5 +1,7 @@
 // Define Mongoose
 const { Schema, model } = require('mongoose');
+// Requiring the Reaction schema to include in the reaction array below
+const Reaction = require('./Reaction');
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
@@ -12,19 +14,20 @@ const thoughtSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
+      get: (date) => date.toLocaleDateString()
     },
     username: {
       type: String,
       required: true,
+      ref: 'user'
     },
-    reactions: {
-
-    },
+    reactions: [Reaction],
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
   }
 );
@@ -34,11 +37,11 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
-// virtual property `dateCreated` that formats the timestamp on a query
-thoughtSchema.virtual('dateCreated').get(function () {
-  let dateCreated = new Date().toLocaleDateString();
-  return dateCreated;
-});
+// // virtual property `dateCreated` that formats the timestamp on a query
+// thoughtSchema.virtual('dateCreated').get(function () {
+//   let dateCreated = new Date().toLocaleDateString();
+//   return dateCreated;
+// });
 
 // initialize our Thought model
 const Thought = model('thought', thoughtSchema);

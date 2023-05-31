@@ -28,6 +28,7 @@ I created this app using JavaScript, Node.js, Express.js, MongoDB, and Mongoose.
 
 - [Mongoose Schema Types](https://mongoosejs.com/docs/schematypes.html)
 - [W3schools Dates](https://www.w3schools.com/jsref/jsref_tolocaledatestring.asp)
+- [Getters](https://stackoverflow.com/questions/52867578/mongoose-date-schema)
 
 
 ## License

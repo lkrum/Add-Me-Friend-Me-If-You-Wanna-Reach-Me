@@ -1,5 +1,5 @@
 // Define Mongoose
-const { Schema, type } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 // Creating Reaction schema
 const reactionSchema = new Schema(
@@ -11,7 +11,6 @@ const reactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      minLength: 1,
       maxLength: 280
     },
     username: {
@@ -21,14 +20,21 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (date) => date.toLocaleDateString()
     }
+  },
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
   }
 )
 
-// virtual property `dateCreated` that formats the timestamp on a query
-reactionSchema.virtual('dateCreated').get(function () {
-  let dateCreated = new Date().toLocaleDateString();
-  return dateCreated;
-});
+// // virtual property `dateCreated` that formats the timestamp on a query
+// reactionSchema.virtual('dateCreated').get(function () {
+//   let dateCreated = new Date().toLocaleDateString();
+//   return dateCreated;
+// });
 
 module.exports = reactionSchema;
