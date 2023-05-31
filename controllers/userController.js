@@ -1,4 +1,4 @@
-// requiring User model
+// requiring User and Thought model
 const { User, Thought } = require('../models');
 
 // exporting CRUD methods
@@ -9,11 +9,12 @@ module.exports = {
       const users = await User.find();
       res.json(users);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
 
-  // GET a single user by its _id and populated thought and friend data
+  // GET a single user by its _id with populated thought and friend data
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId })
@@ -21,7 +22,7 @@ module.exports = {
         .populate('thoughts')
         .populate('friends');
       if (!user) {
-        return res.status(404).json({ message: 'No user with that ID' });
+        return res.status(404).json({ message: 'No user with that ID' })
       }
       res.json(user);
     } catch (err) {
@@ -83,7 +84,7 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { friends: req.body } },
+        { $addToSet: { friends: req.params.userId } },
         { runValidators: true, new: true }
       );
 
@@ -106,16 +107,14 @@ module.exports = {
       );
 
       if (!user) {
-        return res
-          .status(404)
-          .json({ message: 'No user found with that ID :(' });
+        return res.status(404).json({ message: 'Oops, no user found with that ID!' });
       }
-      res.json(user);
+      res.json({ message: 'Friend successfully removed.' });
     } catch (err) {
       res.status(500).json(err);
     }
   },
-}
+};
 
 
 

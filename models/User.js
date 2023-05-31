@@ -8,7 +8,7 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       required: true,
-      trim: true 
+      trim: true
     },
     email: {
       type: String,
@@ -16,21 +16,26 @@ const userSchema = new Schema(
       unique: true
       // match: [`/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`]
     },
-  // creating array of ObjectIds referencing the Thought model
-    thoughts: {
-      type: Schema.Types.ObjectId,
-      ref: 'thought'
-    },
+    // creating array of ObjectIds referencing the Thought model
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'thought'
+      },
+    ],
     // creating array of ObjectIds referencing the User model (self-reference)
-    friends: {
-      type: Schema.Types.ObjectId,
-      ref: 'user'
-    }
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      },
+    ],
   },
   {
     toJSON: {
       virtuals: true,
     },
+    id: false,
   }
 );
 
