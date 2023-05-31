@@ -1,3 +1,18 @@
+// const names = ["charles", "susan", "billy", "jill"]
+
+
+// const arr = []
+// for (let i = 0; i < 500; i++) {
+//   var user = {
+//     username: names[Math.round(Math.random() * names.length)] + names[Math.round(Math.random() * names.length)],
+//     email: `${names[Math.round(Math.random() * names.length)]}@gmail.com`
+//   }
+//   if(!arr.includes(user)){
+//     arr.push(user)
+
+//   }
+// }
+
 const users = [
   {
     username: "taylorswift",

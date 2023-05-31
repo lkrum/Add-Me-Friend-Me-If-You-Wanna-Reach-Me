@@ -82,16 +82,22 @@ module.exports = {
     console.log('You are adding a friend!');
     console.log(req.body);
     try {
-      const user = await User.findOneAndUpdate(
+      const mainUser = await User.findOneAndUpdate(
         { _id: req.params.userId },
+        { $addToSet: { friends: req.params.friendId } },
+        { runValidators: true, new: true }
+      );
+      // adding user to friend's friend list for reciprocation
+      const secondUser = await User.findOneAndUpdate(
+        { _id: req.params.friendId },
         { $addToSet: { friends: req.params.userId } },
         { runValidators: true, new: true }
       );
 
-      if (!user) {
+      if (!mainUser || !secondUser) {
         return res.status(404).json({ message: 'No user found with that ID :(' });
       }
-      res.json(user);
+      res.json(mainUser);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -100,15 +106,22 @@ module.exports = {
   // DELETE to remove a friend from a user's friend list
   async removeFriend(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
+      const mainUser = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: { userId: req.params.userId } } },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
-      );
+      )
+// deleting from main user's friend list as well
+      const secondUser = await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friends: req.params.userId } },
+        { runValidators: true, new: true }
+      )
 
-      if (!user) {
+      if (!mainUser || !secondUser) {
         return res.status(404).json({ message: 'Oops, no user found with that ID!' });
       }
+      console.log(mainUser, secondUser)
       res.json({ message: 'Friend successfully removed.' });
     } catch (err) {
       res.status(500).json(err);
