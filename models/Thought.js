@@ -1,7 +1,7 @@
 // Define Mongoose
 const { Schema, model } = require('mongoose');
 // Requiring the Reaction schema to include in the reaction array below
-const Reaction = require('./Reaction');
+const reactionSchema = require('./Reaction');
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
@@ -22,7 +22,7 @@ const thoughtSchema = new Schema(
       required: true,
       ref: 'user'
     },
-    reactions: [Reaction],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
