@@ -1,5 +1,5 @@
 // requiring User model
-const User = require('../models/User');
+const { User, Thought } = require('../models');
 
 // exporting CRUD methods
 module.exports = {
@@ -64,33 +64,59 @@ module.exports = {
         return res.status(404).json({ message: 'No user found with this id' });
       }
 
-      const thoughts = await Thought.findOneAndUpdate(
-        { username: req.params.userId },
-        { $pull: { username: req.params.userId } },
-        { new: true }
-      );
-
+      const thoughts = await Thought.deleteMany({ _id: { $in: user.thoughts } });
       if (!thoughts) {
         return res.status(404).json({
           message: 'No thoughts found from this user',
         });
       }
-      res.json({ message: 'User successfully deleted!' });
+      res.json({ message: 'User and thoughts successfully deleted!' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // POST to add a new friend to a user's friend list
+  async addFriend(req, res) {
+    console.log('You are adding a friend!');
+    console.log(req.body);
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.body } },
+        { runValidators: true, new: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: 'No user found with that ID :(' });
+      }
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // DELETE to remove a friend from a user's friend list
+  async removeFriend(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { friends: { userId: req.params.userId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: 'No user found with that ID :(' });
+      }
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
   },
 }
 
-
-
-
-
-
-
-
-
-}
 
 
 
