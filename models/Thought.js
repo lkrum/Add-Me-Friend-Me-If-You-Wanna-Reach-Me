@@ -34,6 +34,12 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
+// virtual property `dateCreated` that formats the timestamp on a query
+thoughtSchema.virtual('dateCreated').get(function () {
+  let dateCreated = new Date().toLocaleDateString();
+  return dateCreated;
+});
+
 // initialize our Thought model
 const Thought = model('thought', thoughtSchema);
 
