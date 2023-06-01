@@ -1,4 +1,5 @@
 const router = require('express').Router();
+// importing CRUD methods from controller file
 const {
   getUsers,
   getSingleUser,
