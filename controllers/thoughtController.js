@@ -1,5 +1,5 @@
 // requiring User and Thought model
-const { User, Thought } = require('../models');
+const { Thought } = require('../models');
 
 // exporting CRUD methods
 module.exports = {

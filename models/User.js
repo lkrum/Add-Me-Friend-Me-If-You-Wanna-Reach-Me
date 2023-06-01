@@ -13,29 +13,34 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true
-      // match: [`/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`]
+      unique: true,
+      validate: {
+        validator: function (e) {
+          return /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(e);
+        },
+        message: email => `${email.value} is not a valid email!`
+      },
     },
-    // creating array of ObjectIds referencing the Thought model
-    thoughts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'thought'
-      },
-    ],
-    // creating array of ObjectIds referencing the User model (self-reference)
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-      },
-    ],
-  },
+  // creating array of ObjectIds referencing the Thought model
+  thoughts: [
   {
-    toJSON: {
-      virtuals: true,
+    type: Schema.Types.ObjectId,
+    ref: 'thought'
+  },
+],
+  // creating array of ObjectIds referencing the User model (self-reference)
+  friends: [
+  {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  },
+],
+  },
+{
+  toJSON: {
+    virtuals: true,
     },
-    id: false,
+  id: false,
   }
 );
 
