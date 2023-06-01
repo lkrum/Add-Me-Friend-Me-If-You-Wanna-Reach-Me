@@ -7,9 +7,7 @@ I've used various social media networking platforms for years but have never giv
 
 I definitely have a greater appreciation for social media developers after creating my own miniature network. This was the first time I have used MongoDB extensively, and it had a bit of a learning curve after working with SQL databases. I also understand now why it's useful to have controllers and routes in separate files -- separating the HTTP methods from the routes themselves makes the code much cleaner.
 
-Link to demo: 
-
-![Preview]()
+Link to demo: https://drive.google.com/file/d/1uiKvrp9dZLCz4cqML64wL9ayoXElp8s4/view?usp=sharing
 
 ## Installation
 1. Copy the SSH key in my GitHub repo and paste `git clone <SSHKEY>` in your terminal to create a local copy on your computer\

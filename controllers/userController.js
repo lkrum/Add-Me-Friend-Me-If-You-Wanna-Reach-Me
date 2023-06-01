@@ -57,7 +57,7 @@ module.exports = {
     }
   },
 
-  // DELETE a user by its id AND remove associated thoughts
+  // DELETE a user by its id AND remove associated thoughts and friends
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndDelete({ _id: req.params.userId });
