@@ -31,10 +31,4 @@ const reactionSchema = new Schema(
   }
 )
 
-// // virtual property `dateCreated` that formats the timestamp on a query
-// reactionSchema.virtual('dateCreated').get(function () {
-//   let dateCreated = new Date().toLocaleDateString();
-//   return dateCreated;
-// });
-
 module.exports = reactionSchema;
